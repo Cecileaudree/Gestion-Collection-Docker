@@ -1,0 +1,17 @@
+:80 {
+    # Frontend
+    handle / {
+        reverse_proxy collection_frontend:5173
+    }
+
+    # Backend API
+    handle /api/* {
+        reverse_proxy collection_backend:5000
+    }
+
+    # Log
+    log {
+        output file /var/log/caddy/access.log
+        format json
+    }
+}
