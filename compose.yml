@@ -6,12 +6,8 @@ services:
     container_name: collection_backend
     ports:
       - "5000:5000"
-    environment:
-      DB_HOST: mysql
-      DB_USER: collection_user
-      DB_PASSWORD: collection_pass
-      DB_NAME: collectiondb
-      DB_PORT: 3306
+    env_file:
+      - .env
     depends_on:
       - mysql
 
@@ -27,11 +23,8 @@ services:
     image: mysql:8.0
     container_name: collection_mysql
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: collectiondb
-      MYSQL_USER: collection_user
-      MYSQL_PASSWORD: collection_pass
+    env_file:
+      - .env
     ports:
       - "3306:3306"
     volumes:
