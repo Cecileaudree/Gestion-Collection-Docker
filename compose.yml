@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend
+    container_name: collection_backend
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: mysql
+      DB_USER: collection_user
+      DB_PASSWORD: collection_pass
+      DB_NAME: collectiondb
+      DB_PORT: 3306
+    depends_on:
+      - mysql
+
+  frontend:
+    build: ./frontend
+    container_name: collection_frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+  mysql:
+    image: mysql:8.0
+    container_name: collection_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: collectiondb
+      MYSQL_USER: collection_user
+      MYSQL_PASSWORD: collection_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
