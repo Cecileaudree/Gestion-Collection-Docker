@@ -1,0 +1,25 @@
+version: '3'
+
+vars:
+  CMD: ""
+
+tasks:
+  build:
+    desc: Build all containers
+    cmds:
+      - docker compose -f compose.yml build
+
+  up:
+    desc: Start all containers
+    cmds:
+      - docker compose -f compose.yml up -d
+
+  down:
+    desc: Stop all containers
+    cmds:
+      - docker compose -f compose.yml down
+
+  logs:
+    desc: View logs
+    cmds:
+      - docker compose -f compose.yml logs -f
