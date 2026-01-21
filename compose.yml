@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   backend:
     build: ./backend
@@ -31,17 +29,15 @@ services:
       - mysql_data:/var/lib/mysql
 
   caddy:
-      image: caddy:2.8
-      container_name: collection_caddy
-      ports:
-        - "80:80"
-      volumes:
-        - ./Caddyfile:/etc/caddy/Caddyfile
-        - caddy_data:/data
-        - caddy_config:/config
-      depends_on:
-        - frontend
-        - backend
+    image: caddy:2
+    container_name: collection_caddy
+    ports:
+      - "80:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    depends_on:
+      - frontend
+      - backend
 
 volumes:
   mysql_data:

@@ -31,13 +31,13 @@ app.get('/items', async (req, res) => {
 
 // POST /items => ajouter un item
 app.post('/items', async (req, res) => {
-  const { title, author, acquisition_date, item_condition } = req.body;
+  const { title, author, acquisition_date } = req.body;
   if (!title) return res.status(400).json({ error: 'Le titre est requis' });
 
   try {
     const [result] = await pool.query(
       'INSERT INTO items (title, author, acquisition_date) VALUES (?, ?, ? )',
-      [title, author, acquisition_date, item_condition]
+      [title, author, acquisition_date]
     );
     res.status(201).json({ message: 'Item ajouté', itemId: result.insertId });
   } catch (err) {
