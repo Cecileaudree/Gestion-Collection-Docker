@@ -1,0 +1,26 @@
+*.localhost {
+    @collection host collection.localhost
+    @collection-api {
+        host collection.localhost
+        path /api/*
+    }
+
+
+    # API Backend (Node.js)
+    handle @collection-api {
+        uri strip_prefix /api
+        reverse_proxy backend:5000
+    }
+
+    # Frontend Vue.js (Vite)
+    handle @collection {
+        reverse_proxy frontend:5173 {
+            header_up Host {upstream_hostport}
+        }
+    }
+
+    @dockge host dockge.localhost
+    handle @dockge {
+        reverse_proxy dockge:5001
+    }
+}

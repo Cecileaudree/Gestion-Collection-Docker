@@ -18,6 +18,7 @@ const pool = mysql.createPool({
   port: process.env.DB_PORT
 });
 
+console.log('DB_HOST =', process.env.DB_HOST)
 // GET /items => liste tous les items
 app.get('/items', async (req, res) => {
   try {
