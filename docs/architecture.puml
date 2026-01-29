@@ -1,0 +1,40 @@
+@startuml
+' Architecture PlantUML - Gestion Collection
+skinparam componentStyle rectangle
+
+actor "Internet / User" as User
+
+cloud "Cloudflare" as CF
+rectangle "cloudflared" as CFd #LightBlue
+
+rectangle "Caddy\n(Reverse Proxy)" as Caddy #LightGreen
+
+rectangle "Frontend\n(Vite)" as Frontend #CornflowerBlue
+rectangle "Backend\n(Node.js API)" as Backend #Wheat
+database "MySQL\n(Persistent Volume)" as MySQL #LightYellow
+rectangle "Dockge / Admin" as Dockge #Lavender
+
+' Flows
+User -> CF : HTTPS
+CF -> CFd : Tunnel (cloudflared)
+CFd -> Caddy : HTTP
+Caddy -> Frontend : reverse_proxy (static)
+Caddy -> Backend : reverse_proxy /api
+Backend -> MySQL : SQL connection (3306)
+Dockge -> Backend : admin / management
+
+' Notes
+note right of CFd
+  Requires Cloudflare credentials
+  (tunnel / config) - stored as Kubernetes Secret
+end note
+
+note right of MySQL
+  PVC for data persistence
+end note
+
+note left of Caddy
+  TLS termination, routing, and site config
+end note
+
+@enduml
