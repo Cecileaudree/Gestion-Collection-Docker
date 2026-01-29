@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: app
+data:
+  DOCKGE_STACKS_DIR: /app/stacks
+  DOCKGE_BASE_URL: /dockge
+  TZ: Europe/Paris
+  PUID: "1001"
+  PGID: "1001"
